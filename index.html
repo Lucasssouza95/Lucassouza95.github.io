@@ -36,5 +36,25 @@
     data-getnet-url-callback=""
     data-getnet-pre-authorization-credit="">
     </script>
+    var data,
+        bodyresponse,
+        xhr = new Xmlhttprequest();
+
+    xhr.addEventListener("readystatechange", function ()){
+        if (this.readyState === 4){
+            bodyresponse = JSON.parse(this.responsetext);
+            console.log(bodyresponse)
+        }
+
+    });
+
+    var base64 = btoa("4b3f1dd9-57ed-4035-91e4-e6e6078e977b:2d104a84-8958-47ea-93fb-6e72d6a7ad12");
+    xhr.setRequestHeader("POST", "https://api-sandbox.getnet.com.br/auth/oauth/v2/token");
+    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Authorization","Basic " + base64);
+    xhr.setRequestHeader("cache-control","no-cache");
+
+    xhr.send(data);
+
 </body>
 </html>
