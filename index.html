@@ -37,12 +37,12 @@
     data-getnet-pre-authorization-credit="">
     var data,
         bodyresponse,
-        xhr = new Xmlhttprequest();
+        xhr = new XMLHttpRequest();
 
     xhr.addEventListener("readystatechange", function ()){
         if (this.readyState === 4){
             bodyresponse = JSON.parse(this.responsetext);
-            console.log(bodyresponse)
+            console.log(bodyresponse);
         }
 
     });
