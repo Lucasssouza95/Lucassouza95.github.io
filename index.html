@@ -64,7 +64,7 @@
  
  base64 = btoa("360d564b-82b1-4176-ab12-4f4303f295e3:269d499a-3581-4e07-9880-80380988b00f");
  
- xhr.open("POST", "https://api.getnet.com.br/auth/oauth/v2/token");
+ xhr.open("POST", "https://checkout.getnet.com.br/api/auth/oauth/v2/token");
   xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
   xhr.setRequestHeader("authorization", "Basic " + base64);
   xhr.send(data);
