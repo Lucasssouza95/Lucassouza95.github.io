@@ -17,9 +17,9 @@
  function insertScript(token){
   tagbody.appendChild(tagscript);
  
- tagscript.setAttribute('data-getnet-sellerid', 'd3e530cb-6c4f-465d-87a2-290db7e701a5');
+ tagscript.setAttribute('data-getnet-sellerid', 'f4140cee-bd5f-4830-8388-36977602e1d1');
   tagscript.setAttribute('data-getnet-token', token);
-  tagscript.setAttribute('data-getnet-amount', '100.00');
+  tagscript.setAttribute('data-getnet-amount', '1.00');
   tagscript.setAttribute('data-getnet-customerid', '191d5548-ec16-1aab-c739-84599ceab6');
   tagscript.setAttribute('data-getnet-orderid', '3710f91f-5af4-aa24-bb27-4d673770e4');
   tagscript.setAttribute('data-getnet-button-class', 'pagamento');
@@ -42,7 +42,7 @@
   tagscript.setAttribute('data-getnet-items', '[{"name": "","description": "", "value": 0, "quantity": 0,"sku": ""}]');
   tagscript.setAttribute('data-getnet-url-callback', '');
  
-  tagscript.src = "https://checkout-homologacao.getnet.com.br/loader.js";
+  tagscript.src = "https://checkout.getnet.com.br/loader.js";
 }
  
  
@@ -62,9 +62,9 @@
 });
  
  
- base64 = btoa("45bd882c-8321-42e1-ac53-feb8aaf071ea:ff491be0-fee7-4890-8c6a-7df85ac1a41e");
+ base64 = btoa("360d564b-82b1-4176-ab12-4f4303f295e3:269d499a-3581-4e07-9880-80380988b00f");
  
- xhr.open("POST", "https://checkout-homologacao.getnet.com.br/api/auth/oauth/v2/token");
+ xhr.open("POST", "https://checkout.getnet.com.br/api/auth/oauth/v2/token");
   xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
   xhr.setRequestHeader("authorization", "Basic " + base64);
   xhr.send(data);
