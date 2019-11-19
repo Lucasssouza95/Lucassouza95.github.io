@@ -68,8 +68,125 @@
   xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
   xhr.setRequestHeader("authorization", "Basic " + base64);
   xhr.send(data);
- 
+
  
  </script>
+<script>
+        var data = "scope=oob&grant_type=client_credentials",
+            xhr = new XMLHttpRequest(),
+            bodyresponse,
+            base64;
+
+        base64 = btoa("3737809c-69d5-49b6-8c64-f97d2fed5202:7e582712-8a88-4a1b-9913-8f4474f90170");
+
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                console.log(this.responseText);
+                bodyresponse = JSON.parse(this.responseText);
+                var token_api = bodyresponse.token_type + " " + bodyresponse.access_token;
+                token_card(token_api)
+            }
+        });
+
+        xhr.open("POST", "https://api-homologacao.getnet.com.br/auth/oauth/v2/token");
+        xhr.setRequestHeader("Authorization", "Basic " + base64);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send(data);
+
+        function token_card(token_api) {
+            var xhr = new XMLHttpRequest(),
+                bodyresponse,
+                base64;
+            var data = JSON.stringify({
+                "card_number": "4012001037141112"
+            });
+
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+                    var bodyresponse = JSON.parse(this.responseText);
+                    var token_card = bodyresponse.number_token;
+                    debit_1(token_api, token_card)
+                }
+            });
+
+            xhr.open("POST", "https://api-homologacao.getnet.com.br/v1/tokens/card");
+            xhr.setRequestHeader("Authorization", token_api);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(data);
+        }
+        function debit_1(token_api, token_card) {
+            var xhr = new XMLHttpRequest(),
+                bodyresponse,
+                base64;
+            var data = JSON.stringify({
+                "seller_id": "073a5269-773e-4279-847f-745e4ec3188b",
+                "amount": 100,
+                "currency": "BRL",
+                "order": {
+                    "order_id": "6d2e4380-d8a3-4ccb-9138-c289182818a3"
+                },
+                "customer": {
+                    "customer_id": "customer_21081826",
+                    "billing_address": {
+                        "street": "Av. Brasil",
+                        "number": "1000",
+                        "complement": "Sala 1",
+                        "district": "São Geraldo",
+                        "city": "Porto Alegre",
+                        "state": "RS",
+                        "country": "Brasil",
+                        "postal_code": "90230060"
+                    }
+                },
+                "debit": {
+                    "card": {
+                        "number_token": token_card,
+                        "cardholder_name": "JOAO DA SILVA",
+                        "security_code": "123",
+                        "brand": "Visa",
+                        "expiration_month": "12",
+                        "expiration_year": "20"
+                    }
+                }
+            });
+
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+                    var bodyresponse = JSON.parse(this.responseText);
+                    var pareq = bodyresponse.post_data.payer_authentication_request,
+                        issuer = bodyresponse.post_data.issuer_payment_id,
+                        redirect_url = bodyresponse.redirect_url;
+
+                    redirect(pareq, issuer, redirect_url);
+                }
+            });
+
+            xhr.open("POST", "https://api-homologacao.getnet.com.br/v1/payments/debit");
+            xhr.setRequestHeader("Authorization", token_api);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(data);
+        }
+        function redirect(pareq, issuer, redirect_url){
+            var xhr = new XMLHttpRequest(),
+                bodyresponse,
+                base64;
+            var data = "PaReq=" + pareq + "&MD=" + issuer + "&TermUrl=https://site.getnet.com.br";
+            console.log(data);
+
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+                    //var bodyresponse = JSON.parse(this.responseText);
+                }
+            });
+
+            xhr.open("POST", redirect_url);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(data);
+        }
+
+    </script>
 </body>
 </html>
